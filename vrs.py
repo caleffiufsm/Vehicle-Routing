@@ -1,7 +1,10 @@
 from urllib import request as req
 import numpy as np
+import math
 
-# Return travel distance and time between provided origin and destination
+#=========================================================================
+# Returns travel distance and time between provided origin and destination
+#=========================================================================
 def get_time_and_dist(origin, destination,api):
     origin=origin.replace(" ","+")
     destination=destination.replace(" ","+")
@@ -20,8 +23,9 @@ def get_time_and_dist(origin, destination,api):
                     print(line)
             print('Distance= '+str(val[0])+'\nTime= '+str(val[1]))'''
     return val
-
+#==========================================================================
 # Generates distance matrix for provided nodes
+#==========================================================================
 def generate_distance_matrix(vertices,api):
     nodes=len(vertices)
     Matrix=[[0 for x in range(nodes)] for y in range(nodes)]
@@ -33,7 +37,21 @@ def generate_distance_matrix(vertices,api):
     return Matrix
 
 
+#==========================================================================
+# Create an edge list from the distance matrix
+#==========================================================================
+def create_edgelist(dist_mat):
+    edgelist=[]
+    edges=[]
+    nodes=len(dist_mat)
+    for i in np.arange(nodes):
+        for j in np.arange(nodes):
+            if (dist_mat[i][j]!=0):
+                edges.append((j,dist_mat[i][j]))
+        edgelist.append(edges)
+        edges=[]
 
+    return edgelist
 
 
 vertices=[]    
@@ -50,4 +68,5 @@ while(flag==0):
 des=input("Enter Destination Address: ")
 vertices.append(des)
 api=input("Enter google console API: ")
-generate_distance_matrix(vertices,api)
+
+print(create_edgelist(generate_distance_matrix(vertices,api)))
