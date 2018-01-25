@@ -53,20 +53,49 @@ def create_edgelist(dist_mat):
 
     return edgelist
 
+#==========================================================================
+# Create a minimum spanning tree using Prim's Algorithm
+#==========================================================================
+def MST(vertices,edgelist):
+    S=[]
+    S.append(vertices[2])
+    vertices.remove(2)
+    A=[]
+    while(len(vertices)!=0):
+        mini=99999999999;
+        for i in S:
+            edges=edgelist[i]
+            for items in edges:
+                if (not(items[0] in S) and items[1]<mini):
+                    mini=items[1]
+                    ed=items
+                    st=i
+                    end=items[0]
+        S.append(end)
+        vertices.remove(end)
+        A.append((st,ed))
 
+    return A
+        
+            
 vertices=[]    
 ori=input("Enter Origin Address: ")
 vertices.append(ori)
 flag=0
+count=1
 while(flag==0):
     ad=input("Enter intermediate locations (Press # to finish): ")
     if (ad == '#'):
         flag=1
     else:
         vertices.append(ad)
+        count=count+1
 
 des=input("Enter Destination Address: ")
 vertices.append(des)
+count=count+1
 api=input("Enter google console API: ")
 
-print(create_edgelist(generate_distance_matrix(vertices,api)))
+edgelist=create_edgelist(generate_distance_matrix(vertices,api))
+print(edgelist)
+print(MST(list(np.arange(count)),edgelist))
