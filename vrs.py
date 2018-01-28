@@ -1,6 +1,7 @@
 from urllib import request as req
 import numpy as np
 import math
+import copy
 
 #=========================================================================
 # Returns travel distance and time between provided origin and destination
@@ -41,6 +42,7 @@ def generate_distance_matrix(vertices,api):
 # Create an edge list from the distance matrix
 #==========================================================================
 def create_edgelist(dist_mat):
+    dist_mat=copy.copy(dist_mat)
     edgelist=[]
     edges=[]
     nodes=len(dist_mat)
@@ -57,6 +59,8 @@ def create_edgelist(dist_mat):
 # Create a minimum spanning tree using Prim's Algorithm
 #==========================================================================
 def MST(vertices,edgelist):
+    edgelist=copy.copy(edgelist)
+    vertices=copy.copy(vertices)
     S=[]
     S.append(vertices[2])
     vertices.remove(2)
@@ -77,7 +81,48 @@ def MST(vertices,edgelist):
 
     return A
         
-            
+
+#===========================================================================
+# Create a minimum weight perfect matching subgraph
+#===========================================================================
+def perfect_matching(mini_span_tree,edgelist):
+    mini_span_tree=copy.copy(mini_span_tree)
+    edgelist=copy.copy(edgelist)
+    
+    count=len(mini_span_tree)
+    odd_edge_nodes=dict.fromkeys(np.arange(count+1),0)
+    for items in mini_span_tree:
+        odd_edge_nodes[items[0]]=odd_edge_nodes.get(items[0])+1
+        odd_edge_nodes[items[1][0]]=odd_edge_nodes.get(items[1][0])+1
+
+    for key, value in odd_edge_nodes.items():
+        if (value%2==0):
+            del odd_edge_nodes[key]
+    
+    subgraph={}
+    for keys,val in odd_edge_nodes.items():
+        subgraph[keys]=edgelist[keys]
+
+    subgraph1={}
+    nodes_traversed=[]
+    for key,val in subgraph.items():
+        if (key not in nodes_traversed):
+            nodes_traversed.append(key)
+            mini=9999999999
+            for items in val:
+                if (items[1]<mini):
+                    mini=items[1]
+                    node=items[0]
+                    tup=items
+            nodes_traversed.append(node)
+            subgraph1[key]=tup
+
+
+    return subgraph1
+
+    
+
+'''    
 vertices=[]    
 ori=input("Enter Origin Address: ")
 vertices.append(ori)
@@ -99,3 +144,5 @@ api=input("Enter google console API: ")
 edgelist=create_edgelist(generate_distance_matrix(vertices,api))
 print(edgelist)
 print(MST(list(np.arange(count)),edgelist))
+'''
+print(perfect_matching([(2, (0, 1780)), (0, (1, 662)), (0, (3, 3554))],[[(1, 662), (2, 1780), (3, 3554)], [(0, 662), (2, 1943), (3, 3711)], [(0, 1780), (1, 1943), (3, 4152)], [(0, 3554), (1, 3711), (2, 4152)]]))
