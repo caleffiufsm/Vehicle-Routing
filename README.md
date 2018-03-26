@@ -17,6 +17,10 @@ The problem is NP-hard. Although several exact and heuristic algorithms are avai
 6. Find a Euler tour on the union.
 7. Find Hamiltonian circuit on the Euler tour bypassing repeated vertices.
 
+## Code
+vrs.py - This contains all the functions from creating _MST_ to finding Hamiltonian circuit.
+
+mwmatching.py - This script has been developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) and was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm. For our purpose, we simply provide negative weights to get minimum weight perfect matching.
+
 More information to be added. 
 
-One of the files mwmatching.py developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm.
