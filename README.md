@@ -17,13 +17,20 @@ The problem is NP-hard. Although several exact and heuristic algorithms are avai
 6. Find a Euler tour on the union.
 7. Find Hamiltonian circuit on the Euler tour bypassing repeated vertices.
 
+## Assumptions
+Since we are considering undirected graph, distance between two nodes is same irrespective of order they are traversed. This gives us a symmetric adjacency matrix.
+
 ## Code
 vrs.py - This contains all the methods from creating _MST_ to finding Hamiltonian circuit. This also contains a method called greedy_tour which finds a tour based on greedy strategy.
 
 mwmatching.py - This script has been developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) and was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm. For our purpose, we simply provide negative weights to get minimum weight matching.
 
-## Assumptions
-Since we are considering undirected graph, distance between two nodes is same irrespective of order they are traversed. This gives us a symmetric adjacency matrix.
+## Running instructions
+Create a project on google cloud console and create an api key. Follow the instruction to create a google maps distance matrix API.
+
+Run vrs.py. Enter the starting address where the tour is supposed to start. Provide the addresses of all the nodes to be visited. Enter # before entering the address of the last node (This is not where the tour will end, the tour ends on the starting address as original problem states).
+
+Enter the API key generated at google cloud console.
 
 ## Requirement
 1. Python 2 or 3
