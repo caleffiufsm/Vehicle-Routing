@@ -1,5 +1,5 @@
-from six.moves.urllib import request as req
 from __future__ import print_function
+from six.moves.urllib import request as req
 import numpy as np
 import math
 import copy
@@ -14,13 +14,14 @@ def get_time_and_dist(origin, destination,api):
     destination=destination.replace(" ","+")
     url='https://maps.googleapis.com/maps/api/distancematrix/json?origins='+origin+'&destinations='+destination+'&key='+api;
 
-    with req.urlopen(url) as response:
-        a=response.read().decode('utf-8')
+    response= req.urlopen(url)
+    a=response.read().decode('utf-8')
         
-        val=[int(s) for s in a.split() if s.isdigit()]
-        if not val:
-            print("Error in address of either "+origin+" or "+destination)
-            return [0,0]
+    val=[int(s) for s in a.split() if s.isdigit()]
+    if not val:
+        print("Error in address of either "+origin+" or "+destination)
+        return [0,0]
+
         
     return val
 #==========================================================================
