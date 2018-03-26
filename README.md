@@ -18,9 +18,20 @@ The problem is NP-hard. Although several exact and heuristic algorithms are avai
 7. Find Hamiltonian circuit on the Euler tour bypassing repeated vertices.
 
 ## Code
-vrs.py - This contains all the functions from creating _MST_ to finding Hamiltonian circuit.
+vrs.py - This contains all the methods from creating _MST_ to finding Hamiltonian circuit. This also contains a method called greedy_tour which finds a tour based on greedy strategy.
 
-mwmatching.py - This script has been developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) and was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm. For our purpose, we simply provide negative weights to get minimum weight perfect matching.
+mwmatching.py - This script has been developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) and was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm. For our purpose, we simply provide negative weights to get minimum weight matching.
 
-More information to be added. 
+## Assumptions
+Since we are considering undirected graph, distance between two nodes is same irrespective of order they are traversed. This gives us a symmetric adjacency matrix.
+
+## Requirement
+1. Python 2 or 3
+2. [Google Maps Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/start)
+
+## References
+1. [Heuristics for Travelling Salesman Problem](https://web.tuke.sk/fei-cit/butka/hop/htsp.pdf)
+2. [Christofides Algorithm](https://en.wikipedia.org/wiki/Christofides_algorithm)
+3. [Maximum Weight Matching by Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching)
+
 
