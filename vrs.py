@@ -1,8 +1,10 @@
 from six.moves.urllib import request as req
+from __future__ import print_function
 import numpy as np
 import math
 import copy
 import random
+import sys
 
 #=========================================================================
 # Return travel distance and time between provided origin and destination
@@ -31,12 +33,18 @@ def generate_distance_matrix(vertices_ad,api):
         for j in np.arange(i+1,nodes):
             dist=get_time_and_dist(vertices_ad[i],vertices_ad[j],api)[0]
             while(dist==0):
-                response=input("Enter correct address for "+vertices_ad[i]+" or type 'C' if address is correct:")
+                if sys.version_info[:2]<=(2,7):
+                    response=raw_input("Enter correct address for "+vertices_ad[i]+" or type 'C' if address is correct:")
+                else:
+                    response=input("Enter correct address for "+vertices_ad[i]+" or type 'C' if address is correct:")
                 if response!='C':
                     vertices_ad[i]=response
                     vertices[i]=vertices_ad[i]
-                
-                response=input("Enter correct address for "+vertices_ad[j]+" or type 'C' if address is correct:")
+
+                if sys.version_info[:2]<=(2,7):
+                    response=raw_input("Enter correct address for "+vertices_ad[j]+" or type 'C' if address is correct:")
+                else:
+                    response=input("Enter correct address for "+vertices_ad[j]+" or type 'C' if address is correct:")
                 if response!='C':
                     vertices_ad[j]=response
                     vertices[j]=vertices_ad[j]
@@ -289,39 +297,56 @@ def greedy_tour(dist_mat,vertices,n_nodes):
 
 
 
+if __name__=="__main__":
+    vertices=[]
+    if sys.version_info[:2]<=(2,7):
+        ori=raw_input("Enter Origin Address: ")
+        vertices.append(ori)
+        flag=0
+        count=1
+        while(flag==0):
+            ad=raw_input("Enter intermediate locations (Press # to finish): ")
+            if (ad == '#'):
+                flag=1
+            else:
+                vertices.append(ad)
+                count=count+1
 
-vertices=[]
-
-ori=input("Enter Origin Address: ")
-vertices.append(ori)
-flag=0
-count=1
-while(flag==0):
-    ad=input("Enter intermediate locations (Press # to finish): ")
-    if (ad == '#'):
-        flag=1
-    else:
-        vertices.append(ad)
+        des=raw_input("Enter Last Address: ")
+        vertices.append(des)
         count=count+1
+        api=raw_input("Enter google console API: ")
 
-des=input("Enter Last Address: ")
-vertices.append(des)
-count=count+1
-api=input("Enter google console API: ")
+    else:
+        ori=input("Enter Origin Address: ")
+        vertices.append(ori)
+        flag=0
+        count=1
+        while(flag==0):
+            ad=input("Enter intermediate locations (Press # to finish): ")
+            if (ad == '#'):
+                flag=1
+            else:
+                vertices.append(ad)
+                count=count+1
 
+        des=input("Enter Last Address: ")
+        vertices.append(des)
+        count=count+1
+        api=input("Enter google console API: ")
+        
+    dist_mat=generate_distance_matrix(vertices,api)
 
-dist_mat=generate_distance_matrix(vertices,api)
+    edgelist=create_edgelist(dist_mat)
 
-edgelist=create_edgelist(dist_mat)
+    mst=MST(list(np.arange(count)),edgelist)
+    #print('MST',mst)
 
-mst=MST(list(np.arange(count)),edgelist)
-#print('MST',mst)
+    euler_graph=perfect_matching(mst,edgelist)
+    #print('Euler graph=',euler_graph)
 
-euler_graph=perfect_matching(mst,edgelist)
-#print('Euler graph=',euler_graph)
+    eu_tour=Euler_tour(euler_graph,count)
 
-eu_tour=Euler_tour(euler_graph,count)
+    cycle(eu_tour,dist_mat,vertices)
 
-cycle(eu_tour,dist_mat,vertices)
-
-greedy_tour(dist_mat,vertices,count)
+    greedy_tour(dist_mat,vertices,count)
