@@ -1,4 +1,4 @@
-from urllib import request as req
+from six.moves.urllib import request as req
 import numpy as np
 import math
 import copy
