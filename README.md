@@ -21,7 +21,7 @@ The problem is NP-hard. Although several exact and heuristic algorithms are avai
 Since we are considering undirected graph, distance between two nodes is same irrespective of order they are traversed. This gives us a symmetric adjacency matrix.
 
 ## Code
-vrs.py - This contains all the methods from creating _MST_ to finding Hamiltonian circuit. This also contains a method called greedy_tour which finds a tour based on greedy strategy.
+vrs.py - This contains class my_tour with all the methods from creating _MST_ to finding Hamiltonian circuit. This also contains a method called create_greedy_tour which finds a tour based on greedy strategy.
 
 mwmatching.py - This script has been developed by [Joris van Rantwijk](http://jorisvr.nl/article/maximum-matching) and was available open source. It finds a maximum weight matching in a general graph and is used in our implementation of Christofides algorithm. For our purpose, we simply provide negative weights to get minimum weight matching.
 
